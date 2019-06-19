@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+	<name>TM Footer</name>
+	<version>1.0</version>
+	<author>http://www.templatemonster.com</author>
+	<link>http://www.templatemonster.com</link>
+	<code>4</code>
+	<file path="catalog/controller/common/footer.php">
+		<operation error="skip">
+			<search><![CDATA[ $data['text_newsletter'] = $this->language->get('text_newsletter'); ]]></search>
+			<add position="after"><![CDATA[ 
+			$data['text_account'] = $this->language->get('text_account');
+			$data['text_follow'] = $this->language->get('text_follow');
+			$data['text_support'] = $this->language->get('text_support');
+			$data['text_twi'] = $this->language->get('text_twi');
+			$data['text_fb'] = $this->language->get('text_fb');
+			$data['text_rss'] = $this->language->get('text_rss');
+			$data['text_yt'] = $this->language->get('text_yt');
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[ $data['newsletter'] = $this->url->link('account/newsletter', '', true); ]]></search>
+			<add position="after"><![CDATA[ 
+			$data['address'] = nl2br($this->config->get('config_address'));
+			$data['telephone'] = $this->config->get('config_telephone');
+			$data['fax'] = $this->config->get('config_fax');
+			
+			]]></add>
+		</operation>
+
+	<operation>
+			<search><![CDATA[ $data['newsletter'] = $this->url->link('account/newsletter', '', true); ]]></search>
+			<add position="after"><![CDATA[ 
+					$data['tm_social_list'] = $this->load->controller('module/tm_social_list');
+			]]></add>
+		</operation>
+	</file>
+</modification>

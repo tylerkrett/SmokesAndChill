@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+	<name>TemplateMonster QuickView</name>
+	<version>1.0</version>
+	<author>http://www.templatemonster.com</author>
+	<link>http://www.templatemonster.com</link>
+	<code>TemplateMonster_quickview</code>
+	<file path="catalog/controller/module/{special,bestseller,latest,featured}.php">
+		<operation>
+			<search><![CDATA[public function index($setting) {]]></search>
+			<add position="after">
+				<![CDATA[
+				static $module = 0;
+				]]>
+			</add>
+		</operation>
+		<operation>
+			<search><![CDATA[return $this->load->view('module/]]></search>
+			<add position="before">
+				<![CDATA[
+				$data['module'] = $module++;
+				]]>
+			</add>
+		</operation>
+		<operation>
+			<search><![CDATA[$data['button_cart'] = $this->language->get('button_cart');]]></search>
+			<add position="after">
+				<![CDATA[
+				$data['text_quick']        = $this->language->get('text_quick');
+				$data['text_manufacturer'] = $this->language->get('text_manufacturer');
+				$data['text_model']        = $this->language->get('text_model');
+				]]>
+			</add>
+		</operation>
+	</file>
+	<file path="catalog/controller/module/{special,bestseller,latest}.php">
+		<operation>
+			<search><![CDATA[$data['products'][] = array(]]></search>
+			<add position="before">
+				<![CDATA[
+				$desc = html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8');
+				$pos = strpos($desc,'<iframe');
+				if (is_int($pos)) {
+				$pos2 = strpos($desc, '</iframe>') + 9;
+				$video = substr($desc, $pos, $pos2);
+				$quick_descr = str_replace($video, '', $desc);
+				} else{
+				$quick_descr = $desc;
+				}
+				]]>
+			</add>
+		</operation>
+		<operation>
+			<search><![CDATA['rating'      => $rating,]]></search>
+			<add position="after">
+				<![CDATA[
+				'author'        => $result['manufacturer'],
+				'description1'  => $quick_descr,
+				'manufacturers' => $data['manufacturers'] = $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $result['manufacturer_id']),
+				'model'         => $result['model'],
+				]]>
+			</add>
+		</operation>
+	</file>
+	<file path="catalog/controller/module/featured.php">
+		<operation>
+			<search><![CDATA[$data['products'][] = array(]]></search>
+			<add position="before">
+				<![CDATA[
+				$desc = html_entity_decode($product_info['description'], ENT_QUOTES, 'UTF-8');
+				$pos = strpos($desc,'<iframe');
+				if (is_int($pos)) {
+				$pos2 = strpos($desc, '</iframe>') + 9;
+				$video = substr($desc, $pos, $pos2);
+				$quick_descr = str_replace($video, '', $desc);
+				} else{
+				$quick_descr = $desc;
+				}
+				]]>
+			</add>
+		</operation>
+		<operation>
+			<search><![CDATA['rating'      => $rating,]]></search>
+			<add position="after">
+				<![CDATA[
+				'author'        => $product_info['manufacturer'],
+				'description1'  => $quick_descr,
+				'manufacturers' => $data['manufacturers'] = $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $product_info['manufacturer_id']),
+				'model'         => $product_info['model'],
+				]]>
+			</add>
+		</operation>
+	</file>
+	<file path="catalog/controller/product/{category,manufacturer,search,special,product}.php">
+		<operation>
+			<search><![CDATA[$data['button_cart'] = $this->language->get('button_cart');]]></search>
+			<add position="after">
+				<![CDATA[
+				$data['text_quick'] = $this->language->get('text_quick');
+				]]>
+			</add>
+		</operation>
+	</file>
+	<file path="catalog/controller/product/{category,manufacturer,search,special}.php">
+		<operation>
+			<search><![CDATA[$data['products'][] = array(]]></search>
+			<add position="before">
+				<![CDATA[
+				$desc = html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8');
+				$pos = strpos($desc,'<iframe');
+				if (is_int($pos)) {
+				$pos2 = strpos($desc, '</iframe>') + 9;
+				$video = substr($desc, $pos, $pos2);
+				$quick_descr = str_replace($video, '', $desc);
+				} else{
+				$quick_descr = $desc;
+				}
+				]]>
+			</add>
+		</operation>
+		<operation>
+			<search><![CDATA['rating'      => $result['rating'],]]></search>
+			<add position="after">
+				<![CDATA[
+				'author'        => $result['manufacturer'],
+				'description1'  => $quick_descr,
+				'manufacturers' =>$data['manufacturers'] = $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $result['manufacturer_id']),
+				'model'         => $result['model'],
+				]]>
+			</add>
+		</operation>
+	</file>
+	<file path="catalog/controller/product/product.php">
+		<operation>
+			<search><![CDATA[$data['products'][] = array(]]></search>
+			<add position="before">
+				<![CDATA[
+				$desc = html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8');
+				$pos = strpos($desc,'<iframe');
+				if (is_int($pos)) {
+				$pos2 = strpos($desc, '</iframe>') + 9;
+				$video = substr($desc, $pos, $pos2);
+				$quick_descr = str_replace($video, '', $desc);
+				} else{
+				$quick_descr = $desc;
+				}
+				]]>
+			</add>
+		</operation>
+		<operation>
+			<search><![CDATA['rating'      => $rating,]]></search>
+			<add position="after">
+				<![CDATA[
+				'author'        => $result['manufacturer'],
+				'description1'  => $quick_descr,
+				'manufacturers' =>$data['manufacturers'] = $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $result['manufacturer_id']),
+				'model'         => $result['model'],
+				]]>
+			</add>
+		</operation>
+	</file>
+	<file path="catalog/language/en-gb/module/{special,bestseller,latest,featured}.php">
+		<operation>
+			<search><![CDATA[ $_['heading_title']]]></search>
+			<add position="before"><![CDATA[
+				$_['text_manufacturer'] = 'Brand:';
+				$_['text_model']        = 'Model:';
+				$_['text_quick']        = 'Quick View';
+				]]>
+			</add>
+		</operation>
+	</file>
+	<file path="catalog/language/en-gb/product/{category,manufacturer,search,special,product}.php">
+		<operation>
+			<search index="0"><![CDATA[$_['text_]]></search>
+			<add position="after">
+				<![CDATA[
+				$_['text_quick'] = 'Quick View';
+				]]>
+			</add>
+		</operation>
+	</file>
+	<file path="catalog/language/ru-ru/module/{special,bestseller,latest,featured}.php">
+		<operation>
+			<search><![CDATA[ $_['text_tax']]]></search>
+			<add position="before">
+				<![CDATA[
+				$_['text_manufacturer'] = 'Брєнд';
+				$_['text_model']        = 'Модель:';
+				$_['text_quick']        = 'Быстрый просмотр'; 
+				]]>
+			</add>
+		</operation>
+	</file>
+	<file path="catalog/language/ru-ru/product/{category,manufacturer,search,special,product}.php">
+		<operation>
+			<search index="0"><![CDATA[$_['text_]]></search>
+			<add position="after">
+				<![CDATA[
+				$_['text_quick'] = 'Быстрый просмотр';
+				]]>
+			</add>
+		</operation>
+	</file>
+	<file path="catalog/language/de-DE/module/{special,bestseller,latest,featured}.php">
+		<operation>
+			<search><![CDATA[$_['text_tax']]]></search>
+			<add position="after">
+				<![CDATA[
+				$_['text_manufacturer'] = 'Marke:';
+				$_['text_model']        = 'Model:';
+				$_['text_quick']        = 'Vorschau';
+				]]>
+			</add>
+		</operation>
+	</file>
+	<file path="catalog/language/de-DE/product/{category,manufacturer,search,special,product}.php">
+		<operation>
+			<search index="0"><![CDATA[$_['text_]]></search>
+			<add position="after">
+				<![CDATA[
+				$_['text_quick'] = 'Vorschau';
+				]]>
+			</add>
+		</operation>
+	</file>
+</modification>
